@@ -28,6 +28,20 @@ impl Rank {
         }
     }
 
+    pub fn from_string(rank: &str) -> Result<Rank, &'static str> {
+        match rank {
+            "Iron" => Ok(Rank::Iron),
+            "Bronze" => Ok(Rank::Bronze),
+            "Silver" => Ok(Rank::Silver),
+            "Gold" => Ok(Rank::Gold),
+            "Platinum" => Ok(Rank::Platinum),
+            "Diamond" => Ok(Rank::Diamond),
+            "Master" => Ok(Rank::Master),
+            "Challenger" => Ok(Rank::Challenger),
+            _ => Err("Sorry that is not a rank"),
+        }
+    }
+
     pub fn to_string(&self) -> String {
         match self {
             Rank::Iron => String::from("Iron"),
