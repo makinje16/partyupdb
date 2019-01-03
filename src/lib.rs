@@ -9,6 +9,7 @@ use std::env;
 
 pub mod schema;
 pub mod models;
+pub mod lfgresponses;
 
 use self::models::{Player, NewPlayer, Rank};
 
@@ -41,7 +42,7 @@ pub fn insert_player(username: &str, discord_name: &str, rank: &Rank) {
 pub fn delete_player(discord_name: &str) {
     use self::schema::players::dsl::*;
     let conn = establish_connection();
-    match diesel::delete(players.filter(username.eq(discord_name))).execute(&conn) {
+    match diesel::delete(players.filter(discord_name.eq(discord_name))).execute(&conn) {
         Ok(_ok) => (),
         Err(why) => println!("Error: {}", why),
     }

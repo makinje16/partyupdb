@@ -1,9 +1,9 @@
-extern crate lfgdb;
 extern crate diesel;
+extern crate lfgdb;
 
 use self::lfgdb::*;
-use std::io::{stdin};
 use lfgdb::models::Rank;
+use std::io::stdin;
 
 fn main() {
     let connection = establish_connection();
@@ -16,7 +16,7 @@ fn main() {
     let mut discord_name = String::new();
     stdin().read_line(&mut discord_name).unwrap();
     let discord_name = &discord_name[..(discord_name.len() - 1)];
-    let rank : Rank;
+    let rank: Rank;
 
     loop {
         println!("Rank:");
@@ -24,20 +24,45 @@ fn main() {
         stdin().read_line(&mut rank_str).unwrap();
         let rank_str = &rank_str[..(rank_str.len() - 1)];
         match rank_str.as_ref() {
-            "Iron" => {rank = Rank::Iron; break},
-            "Bronze" => {rank = Rank::Bronze; break},
-            "Silver" => {rank = Rank::Silver; break},
-            "Gold" => {rank = Rank::Gold; break},
-            "Platinum" => {rank = Rank::Platinum; break},
-            "Diamond" => {rank = Rank::Diamond; break},
-            "Master" => {rank = Rank::Master; break},
-            "Challenger" => {rank = Rank::Challenger; break},
-            _ => {println!("Sorry {} isn't a rank", rank_str); continue},
+            "Iron" => {
+                rank = Rank::Iron;
+                break;
+            }
+            "Bronze" => {
+                rank = Rank::Bronze;
+                break;
+            }
+            "Silver" => {
+                rank = Rank::Silver;
+                break;
+            }
+            "Gold" => {
+                rank = Rank::Gold;
+                break;
+            }
+            "Platinum" => {
+                rank = Rank::Platinum;
+                break;
+            }
+            "Diamond" => {
+                rank = Rank::Diamond;
+                break;
+            }
+            "Master" => {
+                rank = Rank::Master;
+                break;
+            }
+            "Challenger" => {
+                rank = Rank::Challenger;
+                break;
+            }
+            _ => {
+                println!("Sorry {} isn't a rank", rank_str);
+                continue;
+            }
         }
-
     }
-    
-    let player = create_player(&connection, &username,
-     &discord_name, &rank);
+
+    let player = create_player(&connection, &username, &discord_name, &rank);
     println!("\nSaved draft {} with id {}", username, player.id);
 }

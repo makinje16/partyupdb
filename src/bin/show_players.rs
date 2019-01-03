@@ -1,9 +1,9 @@
-extern crate lfgdb;
 extern crate diesel;
+extern crate lfgdb;
 
+use self::diesel::prelude::*;
 use self::lfgdb::*;
 use self::models::*;
-use self::diesel::prelude::*;
 use std::env::args;
 
 fn main() {
@@ -12,11 +12,12 @@ fn main() {
     let connection = establish_connection();
     let rank_query = args().nth(1).expect("Please input a rank as an argument");
     let rank_enum = match Rank::from_string(&rank_query) {
-                        Ok(r) => r,
-                        Err(why) => panic!(why),
-                    };
+        Ok(r) => r,
+        Err(why) => panic!(why),
+    };
 
-    let results = players.filter(rank.eq(rank_enum.to_int()))
+    let results = players
+        .filter(rank.eq(rank_enum.to_int()))
         .limit(5)
         .load::<Player>(&connection)
         .expect("Error loading players");
@@ -26,10 +27,13 @@ fn main() {
     for player in results {
         println!("Username: {}", player.username);
         println!("Discord: {}", player.discord_name);
-        println!("Rank: {}", match Rank::from_int(player.rank) {
-                                Ok(r) => r.to_string(),
-                                Err(why) => String::from(why),
-                            });
+        println!(
+            "Rank: {}",
+            match Rank::from_int(player.rank) {
+                Ok(r) => r.to_string(),
+                Err(why) => String::from(why),
+            }
+        );
         println!("----------\n");
     }
 }

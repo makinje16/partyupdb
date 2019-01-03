@@ -1,5 +1,6 @@
 use super::schema::players;
 use diesel::sql_types::*;
+use serde::ser::{Serialize, SerializeStruct, Serializer};
 
 #[derive(Debug, Copy, Clone, AsExpression, FromSqlRow)]
 pub enum Rank {
@@ -57,11 +58,11 @@ impl Rank {
 
     pub fn to_int(&self) -> i32 {
         match self {
-            Rank::Iron =>  0,
+            Rank::Iron => 0,
             Rank::Bronze => 1,
             Rank::Silver => 2,
             Rank::Gold => 3,
-            Rank::Platinum => 4, 
+            Rank::Platinum => 4,
             Rank::Diamond => 5,
             Rank::Master => 6,
             Rank::Challenger => 7,
@@ -79,9 +80,28 @@ pub struct Player {
 }
 
 #[derive(Insertable)]
-#[table_name="players"]
+#[table_name = "players"]
 pub struct NewPlayer<'a> {
     pub username: &'a str,
     pub discord_name: &'a str,
     pub rank: &'a i32,
+}
+
+impl Serialize for Player {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let rank = Rank::from_int(self.rank);
+        let rank_enum = match rank {
+                            Ok(r) => r,
+                            Err(why) => panic!(why),
+                        };
+        let mut s = serializer.serialize_struct("Person", 5)?;
+        s.serialize_field("id", &self.id)?;
+        s.serialize_field("username", &self.username)?;
+        s.serialize_field("discord_name", &self.discord_name)?;
+        s.serialize_field("rank", &rank_enum.to_string())?;
+        s.end()
+    }
 }

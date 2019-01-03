@@ -1,5 +1,5 @@
-extern crate lfgdb;
 extern crate diesel;
+extern crate lfgdb;
 
 use self::diesel::prelude::*;
 use self::lfgdb::*;
@@ -9,8 +9,11 @@ use std::env::args;
 fn main() {
     use lfgdb::schema::players::dsl::{players, published};
 
-    let id = args().nth(1).expect("publish_post requires a post id")
-        .parse::<i32>().expect("Invalid ID");
+    let id = args()
+        .nth(1)
+        .expect("publish_post requires a post id")
+        .parse::<i32>()
+        .expect("Invalid ID");
     let connection = establish_connection();
 
     let player = diesel::update(players.find(id))
