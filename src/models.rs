@@ -94,9 +94,9 @@ impl Serialize for Player {
     {
         let rank = Rank::from_int(self.rank);
         let rank_enum = match rank {
-                            Ok(r) => r,
-                            Err(why) => panic!(why),
-                        };
+            Ok(r) => r,
+            Err(why) => panic!(why),
+        };
         let mut s = serializer.serialize_struct("Person", 5)?;
         s.serialize_field("id", &self.id)?;
         s.serialize_field("username", &self.username)?;

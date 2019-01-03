@@ -1,13 +1,20 @@
 use super::models::Player;
 use serde::ser::{Serialize, SerializeStruct, Serializer};
 
+pub const STATUS_OK: i32 = 200;
+pub const STATUS_FAILURE: i32 = 400;
+pub const BAD_RANK_MSG: &'static str = "Bad rank was inputted";
+pub const SUCC_MSG: &'static str = "Success!";
+
 pub struct LfgResponse {
-    status: i32,
-    body: &'static str,
+    pub status: i32,
+    pub body: &'static str,
 }
 
 pub struct PlayerList {
-    players: Vec<Player>,
+    pub status: i32,
+    pub body: &'static str,
+    pub players: Vec<Player>,
 }
 
 impl Serialize for LfgResponse {
@@ -28,7 +35,17 @@ impl Serialize for PlayerList {
         S: Serializer,
     {
         let mut s = serializer.serialize_struct("PlayerList", 1)?;
+        s.serialize_field("status", &self.status)?;
+        s.serialize_field("body", &self.body)?;
         s.serialize_field("players", &self.players)?;
         s.end()
+    }
+}
+
+pub fn bad_rank_player_list() -> PlayerList {
+    PlayerList {
+        status: STATUS_FAILURE,
+        body: BAD_RANK_MSG,
+        players: Vec::<Player>::new(),
     }
 }
