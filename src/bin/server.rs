@@ -63,7 +63,7 @@ fn find_by_rank(rank_str: String) -> Json<PlayerList> {
 fn main() {
     let config = Config::build(Environment::Staging)
     .address("0.0.0.0")
-    .port(80)
+    .port(8080)
     .workers(2)
     .unwrap();
 
