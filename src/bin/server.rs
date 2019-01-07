@@ -12,6 +12,8 @@ use lfgdb::look_for_by_rank;
 use lfgdb::models::Rank;
 
 use rocket_contrib::json::Json;
+use rocket::config::{Config, Environment};
+use rocket::custom;
 
 #[get("/insert/<username>/<discord_name>/<rank>")]
 fn new_player(username: String, discord_name: String, rank: String) -> Json<LfgResponse> {
@@ -59,5 +61,12 @@ fn find_by_rank(rank_str: String) -> Json<PlayerList> {
 }
 
 fn main() {
-    rocket::ignite().mount("/", routes![new_player, remove_player, find_by_rank]).launch();
+    let config = Config::build(Environment::Staging)
+    .address("0.0.0.0")
+    .port(80)
+    .workers(2)
+    .unwrap();
+
+    let app = rocket::custom(config);
+    app.mount("/", routes![new_player, remove_player, find_by_rank]).launch();
 }
