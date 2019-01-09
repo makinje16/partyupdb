@@ -7,13 +7,13 @@ extern crate lfgdb;
 
 use lfgdb::insert_player;
 use lfgdb::lfgresponses;
-use lfgdb::lfgresponses::{LfgResponse, PlayerList, STATUS_OK, STATUS_FAILURE, SUCC_MSG};
+use lfgdb::lfgresponses::{LfgResponse, PlayerList, STATUS_FAILURE, STATUS_OK, SUCC_MSG};
 use lfgdb::look_for_by_rank;
 use lfgdb::models::Rank;
 
-use rocket_contrib::json::Json;
 use rocket::config::{Config, Environment};
 use rocket::custom;
+use rocket_contrib::json::Json;
 
 #[get("/insert/<username>/<discord_name>/<rank>")]
 fn new_player(username: String, discord_name: String, rank: String) -> Json<LfgResponse> {
@@ -49,9 +49,9 @@ fn remove_player(discord_name: String) -> Json<LfgResponse> {
 #[get("/get/<rank_str>")]
 fn find_by_rank(rank_str: String) -> Json<PlayerList> {
     let rank_enum = match Rank::from_string(rank_str.as_ref()) {
-                                Ok(r) => r,
-                                _ => return Json(lfgresponses::bad_rank_player_list()),
-                    };
+        Ok(r) => r,
+        _ => return Json(lfgresponses::bad_rank_player_list()),
+    };
     let results = look_for_by_rank(rank_enum);
     Json(PlayerList {
         status: STATUS_OK,
@@ -62,11 +62,12 @@ fn find_by_rank(rank_str: String) -> Json<PlayerList> {
 
 fn main() {
     let config = Config::build(Environment::Production)
-    .address("0.0.0.0")
-    .port(80)
-    .workers(2)
-    .unwrap();
+        .address("0.0.0.0")
+        .port(80)
+        .workers(2)
+        .unwrap();
 
     let app = rocket::custom(config);
-    app.mount("/", routes![new_player, remove_player, find_by_rank]).launch();
+    app.mount("/", routes![new_player, remove_player, find_by_rank])
+        .launch();
 }
