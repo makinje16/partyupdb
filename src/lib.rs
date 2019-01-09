@@ -42,10 +42,10 @@ pub fn insert_player(username: &str, discord_name: &str, rank: &Rank) {
     create_player(&conn, username, discord_name, rank);
 }
 
-pub fn delete_player(discord_name: &str) {
+pub fn delete_player(name: &str) {
     use self::schema::players::dsl::*;
     let conn = establish_connection();
-    match diesel::delete(players.filter(discord_name.eq(discord_name))).execute(&conn) {
+    match diesel::delete(players.filter(discord_name.eq(name))).execute(&conn) {
         Ok(_ok) => (),
         Err(why) => println!("Error: {}", why),
     }
