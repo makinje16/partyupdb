@@ -31,28 +31,28 @@ impl Rank {
 
     pub fn from_string(rank: &str) -> Result<Rank, &'static str> {
         match rank {
-            "Iron" => Ok(Rank::Iron),
-            "Bronze" => Ok(Rank::Bronze),
-            "Silver" => Ok(Rank::Silver),
-            "Gold" => Ok(Rank::Gold),
-            "Platinum" => Ok(Rank::Platinum),
-            "Diamond" => Ok(Rank::Diamond),
-            "Master" => Ok(Rank::Master),
-            "Challenger" => Ok(Rank::Challenger),
+            "IRON" => Ok(Rank::Iron),
+            "BRONZE" => Ok(Rank::Bronze),
+            "SILVER" => Ok(Rank::Silver),
+            "GOLD" => Ok(Rank::Gold),
+            "PLATINUM" => Ok(Rank::Platinum),
+            "DIAMOND" => Ok(Rank::Diamond),
+            "MASTER" => Ok(Rank::Master),
+            "CHALLENGER" => Ok(Rank::Challenger),
             _ => Err("Sorry that is not a rank"),
         }
     }
 
     pub fn to_string(&self) -> String {
         match self {
-            Rank::Iron => String::from("Iron"),
-            Rank::Bronze => String::from("Bronze"),
-            Rank::Silver => String::from("Silver"),
-            Rank::Gold => String::from("Gold"),
-            Rank::Platinum => String::from("Platinum"),
-            Rank::Diamond => String::from("Diamond"),
-            Rank::Master => String::from("Master"),
-            Rank::Challenger => String::from("Challenger"),
+            Rank::Iron => String::from("IRON"),
+            Rank::Bronze => String::from("BRONZE"),
+            Rank::Silver => String::from("SILVER"),
+            Rank::Gold => String::from("GOLD"),
+            Rank::Platinum => String::from("PLATINUM"),
+            Rank::Diamond => String::from("DIAMOND"),
+            Rank::Master => String::from("MASTER"),
+            Rank::Challenger => String::from("CHALLENGER"),
         }
     }
 
