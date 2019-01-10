@@ -37,9 +37,23 @@ pub fn create_player<'a>(
         .expect("Error saving new Player")
 }
 
+pub fn check_duplicate(name: &str, conn: &PgConnection) -> bool {
+    use self::schema::players::dsl::*;
+    let results = players
+        .filter(discord_name.eq(name))
+        .load::<Player>(conn)
+        .expect("Error loading players");
+    return if results.len() == 0 { false } else { true };
+}
+
 pub fn insert_player(username: &str, discord_name: &str, rank: &Rank) {
     let conn = establish_connection();
-    create_player(&conn, username, discord_name, rank);
+    match check_duplicate(discord_name, &conn) {
+        false => {
+            create_player(&conn, username, discord_name, rank);
+        }
+        true => (),
+    }
 }
 
 pub fn delete_player(name: &str) {

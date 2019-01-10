@@ -1,7 +1,6 @@
 #![feature(proc_macro_hygiene, decl_macro)]
 #[macro_use]
 extern crate rocket;
-#[macro_use]
 extern crate serde_json;
 extern crate lfgdb;
 
@@ -12,7 +11,6 @@ use lfgdb::look_for_by_rank;
 use lfgdb::models::Rank;
 
 use rocket::config::{Config, Environment};
-use rocket::custom;
 use rocket_contrib::json::Json;
 
 #[get("/insert/<username>/<discord_name>/<rank>")]
