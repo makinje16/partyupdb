@@ -27,6 +27,7 @@ fn main() {
     for player in results {
         println!("Username: {}", player.username);
         println!("Discord: {}", player.discord_name);
+        println!("Discord_Id: {}", player.discord_id);
         println!(
             "Rank: {}",
             match Rank::from_int(player.rank) {
