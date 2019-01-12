@@ -16,6 +16,9 @@ fn main() {
     let mut discord_name = String::new();
     stdin().read_line(&mut discord_name).unwrap();
     let discord_name = &discord_name[..(discord_name.len() - 1)];
+    let mut discord_id_str = String::new();
+    stdin().read_line(&mut discord_id_str).unwrap();
+    let discord_id: i32 = discord_id_str.parse().unwrap();
     let rank: Rank;
 
     loop {
@@ -63,6 +66,6 @@ fn main() {
         }
     }
 
-    let player = create_player(&connection, &username, &discord_name, &rank);
+    let player = create_player(&connection, &username, &discord_name, &discord_id, &rank);
     println!("\nSaved draft {} with id {}", username, player.id);
 }
