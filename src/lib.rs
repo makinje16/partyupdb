@@ -67,13 +67,24 @@ pub fn delete_player(name: &str) {
     }
 }
 
-pub fn look_for_by_rank(player_rank: Rank) -> std::vec::Vec<models::Player> {
+pub fn look_for_by_rank(player_rank: Rank) -> Vec<models::Player> {
     use self::schema::players::dsl::*;
 
     let conn = establish_connection();
     players
         .filter(rank.eq(player_rank.to_int()))
         .limit(10)
+        .load::<Player>(&conn)
+        .expect("Error loading players")
+}
+
+pub fn look_for_by_id(dis_id: &str) -> Vec<models::Player> {
+    use self::schema::players::dsl::*;
+
+    let conn = establish_connection();
+    players
+        .filter(discord_id.eq(dis_id))
+        .limit(1)
         .load::<Player>(&conn)
         .expect("Error loading players")
 }

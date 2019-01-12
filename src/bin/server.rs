@@ -58,6 +58,16 @@ fn find_by_rank(rank_str: String) -> Json<PlayerList> {
     })
 }
 
+#[get("/get/id/<discord_id>")]
+fn find_by_id(discord_id: String) -> Json<PlayerList> {
+    let results = lfgdb::look_for_by_id(&discord_id);
+    Json(PlayerList {
+        status: STATUS_OK,
+        body: SUCC_MSG,
+        players: results,
+    })
+}
+
 fn main() {
     let config = Config::build(Environment::Production)
         .address("0.0.0.0")
@@ -66,6 +76,6 @@ fn main() {
         .unwrap();
 
     let app = rocket::custom(config);
-    app.mount("/", routes![new_player, remove_player, find_by_rank])
+    app.mount("/", routes![new_player, remove_player, find_by_rank, find_by_id])
         .launch();
 }
