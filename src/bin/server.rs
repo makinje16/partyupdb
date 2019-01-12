@@ -58,9 +58,9 @@ fn find_by_rank(rank_str: String) -> Json<PlayerList> {
     })
 }
 
-#[get("/get/id/<discord_id>")]
-fn find_by_id(discord_id: String) -> Json<PlayerList> {
-    let results = lfgdb::look_for_by_id(&discord_id);
+#[get("/get/id/<db_id>")]
+fn find_by_id(db_id: i32) -> Json<PlayerList> {
+    let results = lfgdb::look_for_by_id(db_id);
     Json(PlayerList {
         status: STATUS_OK,
         body: SUCC_MSG,

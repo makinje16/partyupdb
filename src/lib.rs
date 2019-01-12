@@ -78,12 +78,11 @@ pub fn look_for_by_rank(player_rank: Rank) -> Vec<models::Player> {
         .expect("Error loading players")
 }
 
-pub fn look_for_by_id(dis_id: &str) -> Vec<models::Player> {
+pub fn look_for_by_id(db_id: i32) -> Vec<models::Player> {
     use self::schema::players::dsl::*;
-
     let conn = establish_connection();
     players
-        .filter(discord_id.eq(dis_id))
+        .filter(id.eq(db_id))
         .limit(1)
         .load::<Player>(&conn)
         .expect("Error loading players")
