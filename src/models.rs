@@ -3,6 +3,7 @@ use serde::ser::{Serialize, SerializeStruct, Serializer};
 
 #[derive(Debug, Copy, Clone, AsExpression, FromSqlRow)]
 pub enum Rank {
+    Unranked,
     Iron,
     Bronze,
     Silver,
@@ -24,6 +25,7 @@ impl Rank {
             5 => Ok(Rank::Diamond),
             6 => Ok(Rank::Master),
             7 => Ok(Rank::Challenger),
+            8 => Ok(Rank::Unranked),
             _ => Err("That int doesn't equate to a rank"),
         }
     }
@@ -38,12 +40,14 @@ impl Rank {
             "DIAMOND" => Ok(Rank::Diamond),
             "MASTER" => Ok(Rank::Master),
             "CHALLENGER" => Ok(Rank::Challenger),
+            "UNRANKED" => Ok(Rank::Unranked),
             _ => Err("Sorry that is not a rank"),
         }
     }
 
     pub fn to_string(&self) -> String {
         match self {
+            Rank::Unranked => String::from("UNRANKED"),
             Rank::Iron => String::from("IRON"),
             Rank::Bronze => String::from("BRONZE"),
             Rank::Silver => String::from("SILVER"),
@@ -65,6 +69,7 @@ impl Rank {
             Rank::Diamond => 5,
             Rank::Master => 6,
             Rank::Challenger => 7,
+            Rank::Unranked => 8,
         }
     }
 }
