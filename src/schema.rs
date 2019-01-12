@@ -5,5 +5,6 @@ table! {
         discord_name -> Text,
         rank -> Int4,
         published -> Bool,
+        discord_id -> Int4,
     }
 }

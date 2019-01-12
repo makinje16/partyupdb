@@ -13,13 +13,13 @@ use lfgdb::models::Rank;
 use rocket::config::{Config, Environment};
 use rocket_contrib::json::Json;
 
-#[get("/insert/<username>/<discord_name>/<rank>")]
-fn new_player(username: String, discord_name: String, rank: String) -> Json<LfgResponse> {
+#[get("/insert/<username>/<discord_name>/<discord_id>/<rank>")]
+fn new_player(username: String, discord_name: String, discord_id: i32, rank: String) -> Json<LfgResponse> {
     let rank_enum = Rank::from_string(rank.as_ref());
     let response;
     match rank_enum {
         Ok(rank_enum) => {
-            insert_player(&username, &discord_name, &rank_enum);
+            insert_player(&username, &discord_name, &discord_id, &rank_enum);
             response = LfgResponse {
                 status: STATUS_OK,
                 body: SUCC_MSG,

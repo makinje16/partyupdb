@@ -77,6 +77,7 @@ pub struct Player {
     pub discord_name: String,
     pub rank: i32,
     pub published: bool,
+    pub discord_id : i32,
 }
 
 #[derive(Insertable)]
@@ -85,6 +86,7 @@ pub struct NewPlayer<'a> {
     pub username: &'a str,
     pub discord_name: &'a str,
     pub rank: &'a i32,
+    pub discord_id : &'a i32,
 }
 
 impl Serialize for Player {
@@ -101,6 +103,7 @@ impl Serialize for Player {
         s.serialize_field("id", &self.id)?;
         s.serialize_field("username", &self.username)?;
         s.serialize_field("discord_name", &self.discord_name)?;
+        s.serialize_field("discord_id", &self.discord_id)?;
         s.serialize_field("rank", &rank_enum.to_string())?;
         s.end()
     }

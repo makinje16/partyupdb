@@ -24,11 +24,13 @@ pub fn create_player<'a>(
     conn: &PgConnection,
     username: &'a str,
     discord_name: &'a str,
+    discord_id: &i32,
     rank: &'a Rank,
 ) -> Player {
     let new_player = NewPlayer {
         username: username,
         discord_name: discord_name,
+        discord_id: discord_id,
         rank: &rank.to_int(),
     };
     diesel::insert_into(schema::players::table)
@@ -46,11 +48,11 @@ pub fn check_duplicate(name: &str, conn: &PgConnection) -> bool {
     return if results.len() == 0 { false } else { true };
 }
 
-pub fn insert_player(username: &str, discord_name: &str, rank: &Rank) {
+pub fn insert_player(username: &str, discord_name: &str, discord_id : &i32, rank: &Rank) {
     let conn = establish_connection();
     match check_duplicate(discord_name, &conn) {
         false => {
-            create_player(&conn, username, discord_name, rank);
+            create_player(&conn, username, discord_name, discord_id, rank);
         }
         true => (),
     }
