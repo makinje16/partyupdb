@@ -17,10 +17,9 @@ fn main() {
     stdin().read_line(&mut discord_name).unwrap();
     let discord_name = &discord_name[..(discord_name.len() - 1)];
     println!("Discord_id: ");
-    let mut discord_id_str = String::new();
-    stdin().read_line(&mut discord_id_str).unwrap();
-    let discord_id_str = &discord_id_str[..(discord_id_str.len() - 1)];
-    let discord_id: i32 = discord_id_str.parse().unwrap();
+    let mut discord_id = String::new();
+    stdin().read_line(&mut discord_id).unwrap();
+    let discord_id = &discord_id[..(discord_id.len() - 1)];
     let rank: Rank;
 
     loop {

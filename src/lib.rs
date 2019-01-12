@@ -24,7 +24,7 @@ pub fn create_player<'a>(
     conn: &PgConnection,
     username: &'a str,
     discord_name: &'a str,
-    discord_id: &i32,
+    discord_id: &'a str,
     rank: &'a Rank,
 ) -> Player {
     let new_player = NewPlayer {
@@ -48,7 +48,7 @@ pub fn check_duplicate(name: &str, conn: &PgConnection) -> bool {
     return if results.len() == 0 { false } else { true };
 }
 
-pub fn insert_player(username: &str, discord_name: &str, discord_id : &i32, rank: &Rank) {
+pub fn insert_player(username: &str, discord_name: &str, discord_id : &str, rank: &Rank) {
     let conn = establish_connection();
     match check_duplicate(discord_name, &conn) {
         false => {

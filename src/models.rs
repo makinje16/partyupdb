@@ -1,5 +1,4 @@
 use super::schema::players;
-use diesel::sql_types::*;
 use serde::ser::{Serialize, SerializeStruct, Serializer};
 
 #[derive(Debug, Copy, Clone, AsExpression, FromSqlRow)]
@@ -77,7 +76,7 @@ pub struct Player {
     pub discord_name: String,
     pub rank: i32,
     pub published: bool,
-    pub discord_id : i32,
+    pub discord_id : String,
 }
 
 #[derive(Insertable)]
@@ -86,7 +85,7 @@ pub struct NewPlayer<'a> {
     pub username: &'a str,
     pub discord_name: &'a str,
     pub rank: &'a i32,
-    pub discord_id : &'a i32,
+    pub discord_id : &'a str,
 }
 
 impl Serialize for Player {
